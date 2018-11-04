@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class MenuHandler : MonoBehaviour {
 
+    public GameObject gameState;
+
 	// Use this for initialization
 	void Start () {
 		
@@ -28,6 +30,9 @@ public class MenuHandler : MonoBehaviour {
 
     public void ResumeGame() {
         SceneManager.UnloadSceneAsync(2);
+        Time.timeScale = 1;
+        gameState.GetComponent<GameState>().isPaused = false;
+
     }
 
     public void Quit() {
