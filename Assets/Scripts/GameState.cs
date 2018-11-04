@@ -5,7 +5,6 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class GameState : MonoBehaviour {
-    public bool isPaused;
     public Button pause;
     public Button switchCam;
     public Camera top;
@@ -14,6 +13,7 @@ public class GameState : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         top.enabled = false;
+        PlayerPrefs.SetInt("isPaused",0);
         if (Application.platform != RuntimePlatform.Android)
         {
             pause.gameObject.SetActive(false);
@@ -31,7 +31,7 @@ public class GameState : MonoBehaviour {
     {
         if (Application.platform != RuntimePlatform.Android)
         {
-            if (Input.GetKeyUp("escape"))
+            if (Input.GetKeyDown("escape"))
             {
                 PauseGame();
             }
@@ -44,17 +44,20 @@ public class GameState : MonoBehaviour {
 
     public void PauseGame()
     {
-        if (isPaused)
+        int newVal;
+        if (PlayerPrefs.GetInt("isPaused") == 1)
         {
             Time.timeScale = 1;
             SceneManager.UnloadSceneAsync(2);
+            newVal = 0;
         }
         else
         {
             Time.timeScale = 0;
             SceneManager.LoadScene("PauseMenu", LoadSceneMode.Additive);
+            newVal = 1;
         }
-        isPaused = !isPaused;
+        PlayerPrefs.SetInt("isPaused", newVal);
     }
 
     public void SwitchCam()
