@@ -44,6 +44,7 @@ public class EnemyManager : MonoBehaviour {
         if (changeColor) {
             Material currMat = materials[currColorIndex];
             attackableEnemyMat.color = currMat.color;
+			GameObject.Find("Player").GetComponent<Renderer>().material = currMat;
             changeColor = false;
         }
 	}

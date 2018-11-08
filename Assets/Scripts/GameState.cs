@@ -9,10 +9,16 @@ public class GameState : MonoBehaviour {
     public Button switchCam;
     public Camera top;
     public Camera third;
-
+    AudioSource menuAudioSource;
+    public AudioSource gameMusic;
 	// Use this for initialization
 	void Start () {
+        menuAudioSource = GameObject.Find("MenuMusicHandler").GetComponent<AudioSource>();
+		if (PlayerPrefs.GetInt("muteSound", 0) == 0)
+            gameMusic.Play();
         top.enabled = false;
+        Time.timeScale = 1;
+        menuAudioSource.Stop();
         PlayerPrefs.SetInt("isPaused",0);
         if (Application.platform != RuntimePlatform.Android)
         {
@@ -47,12 +53,16 @@ public class GameState : MonoBehaviour {
         int newVal;
         if (PlayerPrefs.GetInt("isPaused") == 1)
         {
+            gameMusic.UnPause();
+            menuAudioSource.Stop();
             Time.timeScale = 1;
             SceneManager.UnloadSceneAsync(2);
             newVal = 0;
         }
         else
         {
+            gameMusic.Pause();
+            menuAudioSource.Play();
             Time.timeScale = 0;
             SceneManager.LoadScene("PauseMenu", LoadSceneMode.Additive);
             newVal = 1;
@@ -64,5 +74,14 @@ public class GameState : MonoBehaviour {
     {
         third.enabled = !third.enabled;
         top.enabled = !top.enabled;
+        if (PlayerPrefs.GetInt("muteSound", 0) == 0) {
+            if (top.enabled) {
+				top.GetComponent<AudioListener>().enabled = true;
+				third.GetComponent<AudioListener>().enabled = false;
+            } else {
+                top.GetComponent<AudioListener>().enabled = false;
+                third.GetComponent<AudioListener>().enabled = true;
+            }
+        }
     }
 }

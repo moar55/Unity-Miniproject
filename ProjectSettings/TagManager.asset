@@ -8,6 +8,7 @@ TagManager:
   - Enemy
   - Lane
   - ColorChangeWall
+  - MenuMusic
   layers:
   - Default
   - TransparentFX
