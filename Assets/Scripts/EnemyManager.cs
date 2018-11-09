@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyManager : MonoBehaviour {
 	float spawnTime = 1f;
-    float colorChangeTime = 5f;
+    float colorChangeTime = 6f;
     public GameObject[] enemies; // enemies prefabs
     public GameObject[] colorChangeWalls; //colorChangeWall prefabs
     public Material attackableEnemyMat;
